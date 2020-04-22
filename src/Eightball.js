@@ -2,77 +2,68 @@ import React, { useState } from 'react';
 import choice from "./helpers";
 import "./Eightball.css";
 
-
-
-
-
+/** Eightball: returns html of an eightball and holds state about msg, color, and count for each color */
 function Eightball({ answers, initMessage, initColor }) {
 
   const [msg, setMsg] = useState(initMessage);
   const [color, setColor] = useState(initColor);
-  const [green, setGreen] = useState(0);
-  const [goldenrod, setGoldenrod] = useState(0);
-  const [red, setRed] = useState(0);
-
-  let greenCount = 0;
-  let redCount = 0;
-  let yellowCount = 0;
+  let [green, setGreen] = useState(0);
+  let [goldenrod, setGoldenrod] = useState(0);
+  let [red, setRed] = useState(0);
 
   function clickHandler() {
     let answer = choice(answers);
     setMsg(answer.msg);
     setColor(answer.color);
-    if(answer.color === "red"){
-      redCount++;
-      setRed(redCount);
+    if (answer.color === "red") {
+      setRed(oldRed => oldRed + 1);
     }
-    else if(answer.color === "green"){
-      greenCount++;
-      setGreen(greenCount);
+    else if (answer.color === "green") {
+      setGreen(oldGreen => oldGreen + 1);
     }
-    else if(answer.color === "goldenrod"){
-      yellowCount++;
-      setGoldenrod(yellowCount);
+    else if (answer.color === "goldenrod") {
+      setGoldenrod(oldGoldenrod => oldGoldenrod + 1);
     }
-    
-  
+
+
   }
 
-  function resetClick(){
+  function resetClick() {
     setMsg(initMessage);
     setColor(initColor);
 
+    setGreen(0);
+    setRed(0);
+    setGoldenrod(0);
   }
+
   const colorChange = {
     backgroundColor: color,
     color: "white"
   }
 
-
-  
   return (
     <div>
-    <div onClick={clickHandler} className="eightball" style={colorChange}>
+      <div onClick={clickHandler} className="eightball" style={colorChange}>
 
-      <p className="msg"> {msg} </p>
+        <p className="msg"> {msg} </p>
 
-    </div>
-    <br></br>
-    <button onClick= { resetClick }>Reset!</button>
-    <div className="counter">
-      <p>
-        Green: { green }
-      </p>
-      <p>
-        Goldenrod: { goldenrod }
-      </p>
-      <p>
-        Red: { red }
-      </p>
-    </div>
+      </div>
+      <br></br>
+      <button onClick={resetClick}>Reset!</button>
+      <div className="counter">
+        <p>
+          Green: {green}
+        </p>
+        <p>
+          Goldenrod: {goldenrod}
+        </p>
+        <p>
+          Red: {red}
+        </p>
+      </div>
     </div>
   )
-
 }
 
 
@@ -103,4 +94,4 @@ Eightball.defaultProps = {
   initColor: "black"
 }
 
-export default Eightball 
+export default Eightball ;
